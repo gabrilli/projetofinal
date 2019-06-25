@@ -178,10 +178,6 @@
                     <div id="resultadoPesquisa"></div>
                     </div>
                     <br>
-                    <hr>
-                    <br>        
-            
-                    <br>
                     <h2>Depositar a garantia da Locação</h2>
                     <h4>*Uso exclusivo do locatário*</h4>
                     <div id="depositaGarantia">
@@ -219,15 +215,12 @@
                             </div>
                         </form>
                     <div id="resultadoPesquisa"></div>
-                    </div>
-                    <br>
-                    <hr>
-                    <br>        
+                    </div>        
                     <br>
                     <h2>Pagar Locação</h2>
                     <h4>*Uso exclusivo do locatário*</h4>
                     <div id="pagamento">
-                        <form class="form-horizontal" action="#" method="get" name="formpagamento" id="formPagamento">
+                        <form class="form-horizontal" action="#" method="get" name="formpagamento" id="formpagamento">
                             <br>
                             <div>
                                 <div class="form-group">
@@ -261,13 +254,7 @@
                             </div>
                         </form>
                     <div id="resultadoPesquisa"></div>
-                    </div>
-                    <br>
-                    <hr>
-                    <br>        
-                    <br>
-                    
-                    <br>        
+                    </div>       
                     <br>
                     <h2>Restituir garantia ao locatário</h2>
                     <h4>*Uso exclusivo do locador*</h4>
@@ -335,34 +322,67 @@
             })
         }
 
-        var frmregistraLocatario = document.formregistraLocatario;
-        function registraLocatario() {
+        var valorLocacao = 0;
+        var valorGarantia = 0;
+        var formBuscarContrato = document.formBuscarContrato;
+        function buscaContratoPorNumero() {
+            event.preventDefault();
+            $("#resultadoPesquisa").html("&nbsp");
+            contract.buscaContratoPorNumero(formBuscarContrato.numeroDoContrato.value, {from: web3.eth.accounts[0], gas: 3000000, value: 0}, function (erro, resultado) {
+                if (erro) {
+                    console.log("buscaContrato");
+                    console.error(erro);
+                    alert("ERRO - Busca não realizada" );
+                    frmBuscarContrato.numeroDoContrato.value = "";
+                    return
+                }
+                $("#resultadoPesquisa").html("Os dados deste contrato são: <br> Locador: " + resultado[0] + "<br> ID Digital Locador: " + resultado[1] + "<br> Locatário: " + resultado[2] + 
+                "<br> ID Digital Locatário: " + resultado[3] + "<br> Endereço do Imóvel: " + resultado[4] + "<br> Valor da Locação: " + resultado[5] + "<br> Valor da Garantia: " + resultado[6] +
+                "<br> Data Inicial: " + resultado[7] + "<br> Data Final: " + resultado[8]);
+                valorLocacao = (resultado[5] * 1);
+                valorGarantia = (resultado[6] * 1);
+            })
+        }
+        
+        var frmDepositaGarantia = document.formDepositaGarantia;
+        function depositaGarantia() {
             event.preventDefault();
             $("#statusTransacao").html("&nbsp;");
-            contract.b_registraLocatario(frmregistraLocatario.numeroDoContrato.value, frmregistraLocatario.contaLocatario.value, 
-            frmregistraLocatario.locatario.value, 
-            frmregistraLocatario.digidLocatario, {from: web3.eth.accounts[0], gas: 3000000, value: 0}, function (erro, resultado) {
+            contract.c_depositaGarantia (frmregistraLocatario.numeroDoContrato.value, {from: web3.eth.accounts[0], gas: 3000000, value: valorGarantia}, function (erro, resultado) {
                 if (erro) {
-                    console.log("registrarLocatario");
+                    console.log("statusTransacao");
                     console.error(erro);
-                    alert("ERRO - Registro não realizado" );
+                    alert("ERRO - Deposito não realizado" );
                     return
                 }
                 waitForTxToBeMined(resultado, "#statusTransacao");
             })
         }
 
-        var frmregistraLocatario = document.formregistraLocatario;
-        function registraLocatario() {
+        var frmpagamento = document.formpagamento;
+        function pagamento() {
             event.preventDefault();
             $("#statusTransacao").html("&nbsp;");
-            contract.b_registraLocatario(frmregistraLocatario.numeroDoContrato.value, frmregistraLocatario.contaLocatario.value, 
-            frmregistraLocatario.locatario.value, 
-            frmregistraLocatario.digidLocatario, {from: web3.eth.accounts[0], gas: 3000000, value: 0}, function (erro, resultado) {
+            contract.d_pagamento (frmregistraLocatario.numeroDoContrato.value, {from: web3.eth.accounts[0], gas: 3000000, value: valorLocacao}, function (erro, resultado) {
                 if (erro) {
-                    console.log("registrarLocatario");
+                    console.log("statusTransacao");
                     console.error(erro);
-                    alert("ERRO - Registro não realizado" );
+                    alert("ERRO - Pagamento não realizado" );
+                    return
+                }
+                waitForTxToBeMined(resultado, "#statusTransacao");
+            })
+        }
+
+        var frmestornarGarantia = document.formestornarGarantia;
+        function estornaGarantia() {
+            event.preventDefault();
+            $("#statusTransacao").html("&nbsp;");
+            contract.e_estornaGarantia (frmregistraLocatario.numeroDoContrato.value, {from: web3.eth.accounts[0], gas: 3000000, value: valorGarantia}, function (erro, resultado) {
+                if (erro) {
+                    console.log("statusTransacao");
+                    console.error(erro);
+                    alert("ERRO - Garantia não restituída" );
                     return
                 }
                 waitForTxToBeMined(resultado, "#statusTransacao");
