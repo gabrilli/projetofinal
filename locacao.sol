@@ -80,6 +80,7 @@ contract Aluguel {
     function c_depositaGarantia (uint numeroDoContrato) public payable {
         Contrato memory contratoLocacao = ListaDeContratos[numeroDoContrato];
         require (msg.value == contratoLocacao.valorGarantia, "Garantia diversa da exigida");
+        require (msg.sender == contratoLocacao.contaLocatario, "Pessoa não autorizada");
         require (now <= contratoLocacao.dataInicialLocacao, "Imovel não disponível");
         require (!pagamentosEfetuados, "O imóvel já foi locado");
         require (!garantiaDepositada, "Garantia já cadastrada");
@@ -90,6 +91,7 @@ contract Aluguel {
     function d_pagamento (uint numeroDoContrato) public payable {
         Contrato memory contratoLocacao = ListaDeContratos[numeroDoContrato];
         require (garantiaDepositada, "Efetuar o depósito da garantia");
+        require (msg.sender == contratoLocacao.contaLocatario, "Pessoa não autorizada");
         require (msg.value == contratoLocacao.valorLocacao, "Valor diverso do estipulado pelo Locador");
         require (now <= contratoLocacao.dataInicialLocacao, "Imovel não disponível");
         require (!pagamentosEfetuados, "Pagamento já realizado");
