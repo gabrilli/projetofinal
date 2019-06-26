@@ -292,10 +292,8 @@
         function criarContrato() {
             event.preventDefault();
             $("#criarContrato").html("");
-            contract.a_criarContrato(frmcriarContrato.locador.value, frmcriarContrato.digidLocador.value, frmcriarContrato.contaLocador.value, 
-            frmcriarContrato.enderecoImovel.value, frmcriarContrato.valorLocacao.value, 
-            frmcriarContrato.valorGarantia.value, frmcriarContrato.dataInicialLocacao.value,
-            frmcriarContrato.dataFinalLocacao.value, {from: web3.eth.accounts[0], gas: 3000000, value: 0}, function (erro, resultado) {
+            console.log(frmcriarContrato.locador.value, frmcriarContrato.digidLocador.value, frmcriarContrato.contaLocador.value, frmcriarContrato.enderecoImovel.value, frmcriarContrato.valorLocacao.value, frmcriarContrato.valorGarantia.value, frmcriarContrato.dataInicialLocacao.value, frmcriarContrato.dataFinalLocacao.value);
+            contract.a_criarContrato(frmcriarContrato.locador.value, frmcriarContrato.digidLocador.value, frmcriarContrato.contaLocador.value, frmcriarContrato.enderecoImovel.value, frmcriarContrato.valorLocacao.value, frmcriarContrato.valorGarantia.value, frmcriarContrato.dataInicialLocacao.value, frmcriarContrato.dataFinalLocacao.value, {from: web3.eth.accounts[0], gas: 7000000, value: 0}, function (erro, resultado) {
                 if (erro) {
                     console.log("criarContrato");
                     console.error(erro);
@@ -303,7 +301,7 @@
                     return
                 }
                 $("#criarContrato").html("O número do contrato cadastrado é: " + resultado);
-            })
+            });
         }
         var frmRegistraLocatario = document.formRegistraLocatario;
         function registraLocatario() {
