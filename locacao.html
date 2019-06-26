@@ -348,7 +348,7 @@
         function depositaGarantia() {
             event.preventDefault();
             $("#statusTransacao").html("&nbsp;");
-            contract.c_depositaGarantia (frmregistraLocatario.numeroDoContrato.value, {from: web3.eth.accounts[0], gas: 3000000, value: valorGarantia}, function (erro, resultado) {
+            contract.c_depositaGarantia (frmDepositaGarantia.numeroDoContrato.value, {from: web3.eth.accounts[0], gas: 3000000, value: valorGarantia}, function (erro, resultado) {
                 if (erro) {
                     console.log("statusTransacao");
                     console.error(erro);
@@ -363,7 +363,7 @@
         function pagamento() {
             event.preventDefault();
             $("#statusTransacao").html("&nbsp;");
-            contract.d_pagamento (frmregistraLocatario.numeroDoContrato.value, {from: web3.eth.accounts[0], gas: 3000000, value: valorLocacao}, function (erro, resultado) {
+            contract.d_pagamento (frmpagamento.numeroDoContrato.value, {from: web3.eth.accounts[0], gas: 3000000, value: valorLocacao}, function (erro, resultado) {
                 if (erro) {
                     console.log("statusTransacao");
                     console.error(erro);
@@ -378,7 +378,7 @@
         function estornaGarantia() {
             event.preventDefault();
             $("#statusTransacao").html("&nbsp;");
-            contract.e_estornaGarantia (frmregistraLocatario.numeroDoContrato.value, {from: web3.eth.accounts[0], gas: 3000000, value: valorGarantia}, function (erro, resultado) {
+            contract.e_estornaGarantia (frmestornarGarantia.numeroDoContrato.value, {from: web3.eth.accounts[0], gas: 3000000, value: valorGarantia}, function (erro, resultado) {
                 if (erro) {
                     console.log("statusTransacao");
                     console.error(erro);
