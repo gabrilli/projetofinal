@@ -310,7 +310,7 @@
             event.preventDefault();
             $("#statusTransacao").html("&nbsp;");
             contract.b_registraLocatario(frmRegistraLocatario.numeroDoContrato.value, frmRegistraLocatario.contaLocatario.value, 
-            frmRegistraLocatario.locatario.value, 
+            frmRegistraLocatario.Locatario.value, 
             frmRegistraLocatario.digidLocatario, {from: web3.eth.accounts[0], gas: 3000000, value: 0}, function (erro, resultado) {
                 if (erro) {
                     console.log("registrarLocatario");
